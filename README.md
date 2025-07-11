@@ -44,7 +44,7 @@ Synology DSM (tested on DS920+)
 
 1. Clone the repo
 
-git clone https://github.com/YOUR_USERNAME/smartthings-sonos-auto-mute.git
+git clone https://github.com/aputze/smartthings-sonos-auto-mute.git
 cd smartthings-sonos-auto-mute
 
 2. Set SmartThings credentials
