@@ -39,20 +39,34 @@ def get_presence(sensor_id):
         print(f"[{sensor_id}] Failed to get presence: {e}")
         return None
 
-def mute(ip): soco.SoCo(ip).mute = True
-def unmute(ip): soco.SoCo(ip).mute = False
+def mute(ip):
+    try:
+        soco.SoCo(ip).mute = True
+    except Exception as e:
+        print(f"[{ip}] Failed to mute speaker: {e}")
 
-print("🔄 Running multi-zone presence-monitor loop...")
-while True:
-    for zone in ZONES:
-        current = get_presence(zone["sensor_id"])
-        if current is None or current == zone["last_state"]:
-            continue
-        zone["last_state"] = current
-        if current:
-            print(f"[{zone['name']}] Presence detected → UNMUTE {zone['speaker_ip']}")
-            unmute(zone["speaker_ip"])
-        else:
-            print(f"[{zone['name']}] No presence → MUTE {zone['speaker_ip']}")
-            mute(zone["speaker_ip"])
-    time.sleep(CHECK_INTERVAL)
+def unmute(ip):
+    try:
+        soco.SoCo(ip).mute = False
+    except Exception as e:
+        print(f"[{ip}] Failed to unmute speaker: {e}")
+
+def main():
+    print("🔄 Running multi-zone presence-monitor loop...")
+    while True:
+        for zone in ZONES:
+            current = get_presence(zone["sensor_id"])
+            if current is None or current == zone["last_state"]:
+                continue
+            zone["last_state"] = current
+            if current:
+                print(f"[{zone['name']}] Presence detected → UNMUTE {zone['speaker_ip']}")
+                unmute(zone["speaker_ip"])
+            else:
+                print(f"[{zone['name']}] No presence → MUTE {zone['speaker_ip']}")
+                mute(zone["speaker_ip"])
+        time.sleep(CHECK_INTERVAL)
+
+
+if __name__ == "__main__":
+    main()
