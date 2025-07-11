@@ -38,7 +38,7 @@ This system automates Sonos speaker behavior in zones like bathrooms and showers
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/smartthings-sonos-auto-mute.git
+git clone https://github.com/aputze/smartthings-sonos-auto-mute.git
 cd smartthings-sonos-auto-mute
 ```
 
