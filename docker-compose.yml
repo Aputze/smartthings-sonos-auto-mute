@@ -1,0 +1,9 @@
+
+version: '3.8'
+
+services:
+  smartthings-sonos:
+    build: .
+    container_name: smartthings-sonos
+    restart: always
+    network_mode: host
