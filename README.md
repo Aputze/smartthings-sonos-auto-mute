@@ -1,120 +1,102 @@
-SmartThings-Sonos Auto-Mute System 🤖🔊
+# SmartThings-Sonos Auto-Mute System 🤖🔊
 
 Python-based smart home automation project that mutes/unmutes Sonos speakers in response to presence detection via Aqara FP1 sensors, using Samsung SmartThings API.
 
-🧠 Project Summary
+## 🧠 Project Summary
 
 This system automates Sonos speaker behavior in zones like bathrooms and showers. When a zone is empty, the speaker is muted; when presence is detected, it's unmuted — all via local network and SmartThings API.
 
-✅ Features
+## ✅ Features
 
-Multi-zone support (e.g., Bathroom, Shower, etc.)
+- Multi-zone support (e.g., Bathroom, Shower, etc.)
+- Real-time presence detection via Aqara FP1 sensors
+- Mute/unmute Sonos speakers using SoCo (LAN)
+- Dockerized and deployable on Synology NAS (DSM/Container Manager)
+- Background service, runs 24/7 reliably
+- Auto-start on reboot (optional via Container settings)
 
-Real-time presence detection via Aqara FP1 sensors
+## 🛠️ Technologies
 
-Mute/unmute Sonos speakers using SoCo (LAN)
+- Python 3.x
+- SmartThings REST API
+- [SoCo](https://github.com/SoCo/SoCo) (Sonos Control via LAN)
+- Docker & Docker Compose
+- Synology DSM (tested on DS920+)
 
-Dockerized and deployable on Synology NAS (DSM/Container Manager)
+## 📁 Project Structure
 
-Background service, runs 24/7 reliably
-
-Auto-start on reboot (optional via Container settings)
-
-🛠️ Technologies
-
-Python 3.x
-
-SmartThings REST API
-
-SoCo (Sonos Control via LAN)
-
-Docker & Docker Compose
-
-Synology DSM (tested on DS920+)
-
-📁 Project Structure
-
+```
 .
-├── smartthings_sonos_multi_zone.py   # Main logic (configurable)
+├── smartthings_sonos_multi_zone.py   # Main logic
 ├── Dockerfile                         # Container image definition
 ├── docker-compose.yml                 # Service orchestration
 └── README.md                          # This file
+```
 
-⚙️ Configuration
+## ⚙️ Configuration
 
-1. Clone the repo
+### 1. Clone the repo
 
-git clone https://github.com/aputze/smartthings-sonos-auto-mute.git
+```bash
+git clone https://github.com/YOUR_USERNAME/smartthings-sonos-auto-mute.git
 cd smartthings-sonos-auto-mute
+```
 
-2. Set SmartThings credentials
+### 2. Set SmartThings credentials
 
-Go to SmartThings API and create a token
+- Go to [SmartThings API](https://account.smartthings.com/tokens) and create a token
+- Ensure it has these permissions:
+  - `Devices: Read`
+  - `Devices: Execute Commands`
 
-Ensure it has these permissions:
+Edit `smartthings_sonos_multi_zone.py`:
 
-Devices: Read
-
-Devices: Execute Commands
-
-Edit smartthings_sonos_multi_zone.py and replace the placeholders with your real values:
-
-ACCESS_TOKEN = "YOUR_SMARTTHINGS_ACCESS_TOKEN"
+```python
+ACCESS_TOKEN = "your-smartthings-token"
 ZONES = [
     {
         "name": "Bathroom",
-        "sensor_id": "YOUR_SENSOR_ID_1",
-        "speaker_ip": "192.168.X.X"
+        "sensor_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+        "speaker_ip": "192.168.1.100"
     },
     {
         "name": "Shower",
-        "sensor_id": "YOUR_SENSOR_ID_2",
-        "speaker_ip": "192.168.X.X"
+        "sensor_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+        "speaker_ip": "192.168.1.101"
     }
 ]
+```
 
-🕵️‍♂️ How to find your sensor/device IDs:
+### 3. Run via Docker
 
-Log in to the SmartThings Developer Workspace
-
-Go to My Devices → Find your sensor → Copy its Device ID
-
-Test API access via:
-
-curl -H "Authorization: Bearer YOUR_ACCESS_TOKEN" https://api.smartthings.com/v1/devices
-
-Search the JSON output for your devices.
-
-3. Run via Docker
-
+```bash
 docker-compose up -d
+```
 
-Or deploy on your Synology NAS via Container Manager:
+Or deploy on your **Synology NAS** via **Container Manager**:
 
-Go to Projects → Create
+- Go to Projects → Create
+- Upload folder and select `docker-compose.yml`
+- Set network mode: `host`
+- Enable auto-restart
 
-Upload folder and select docker-compose.yml
-
-Set network mode: host
-
-Enable auto-restart
-
-🧪 Example Output
+## 🧪 Example Output
 
 When presence is detected:
 
-[Bathroom] Presence: True → Unmuting 192.168.X.X
-[Shower]   Presence: False → Muting 192.168.X.X
+```
+[Bathroom] Presence: True → Unmuting 192.168.1.100
+[Shower]   Presence: False → Muting 192.168.1.101
+```
 
-📸 Optional: Screenshots / GIF
+## 📸 Optional: Screenshots / GIF
 
-Coming soon
+*Coming soon*
 
-📜 License
+## 📜 License
 
 MIT License — feel free to fork, modify, contribute.
 
-🙋‍♂️ Author
+## 🙋‍♂️ Author
 
-Built by Sergei Lerner
-
+Built by [Sergei Lerner](https://www.linkedin.com/in/sergei-lerner-b5757837/)
